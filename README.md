@@ -235,10 +235,23 @@ dotnet ef database update --project ../ApprovalRequestsApi.Infrastructure
 dotnet ef database update PreviousMigrationName --project ../ApprovalRequestsApi.Infrastructure
 ```
 
-## Licencia
 
-[Especificar licencia del proyecto]
+## 🤝 Contribuir
 
-## Contacto
+Las contribuciones son bienvenidas. Por favor:
 
-[Información de contacto del equipo]
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto es privado y pertenece a Farinter/Delage.
+
+## 👨‍💻 Autor
+
+Angel Chavez
+
+---
