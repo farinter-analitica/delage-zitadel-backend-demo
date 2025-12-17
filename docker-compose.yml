@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: approval-requests-db
+    environment:
+      POSTGRES_DB: approval_requests_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - approval-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: src/ApprovalRequestsApi.Api/Dockerfile
+    container_name: approval-requests-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8081
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=approval_requests_db;Username=postgres;Password=postgres_password"
+      Zitadel__Authority: "https://zitadel.farinter.com"
+      Zitadel__ServiceAccountPath: "/app/config/service-account-api.json"
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./config:/app/config:ro
+    networks:
+      - approval-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+
+networks:
+  approval-network:
+    driver: bridge
